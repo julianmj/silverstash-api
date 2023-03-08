@@ -6,7 +6,8 @@ import { AppService } from './app.service';
 import { TransactionsModule } from './transactions/transactions.module';
 import { environments } from './environments';
 import { DatabaseModule } from './database/database.module';
-import config from 'config';
+import { AuthModule } from './auth/auth.module';
+import config from 'src/config';
 import configSchema from './configSchema';
 
 @Module({
@@ -19,6 +20,7 @@ import configSchema from './configSchema';
       validationSchema: configSchema,
     }),
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

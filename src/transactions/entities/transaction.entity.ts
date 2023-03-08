@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, Timestamp } from 'typeorm';
 
 @Entity({ name: 'transactions' })
 export class Transaction {

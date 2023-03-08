@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsDate,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { PartialType, ApiProperty } from '@nestjs/swagger';
 
 export class CreateTransactionDto {
   @IsOptional()
@@ -29,5 +29,7 @@ export class CreateTransactionDto {
 
   @IsDate()
   @IsOptional()
-  readonly transactionDate: Date;
+  transactionDate: Date;
 }
+
+export class UpdateTransactionDto extends PartialType(CreateTransactionDto) {}
