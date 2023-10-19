@@ -5,31 +5,36 @@ import {
   IsPositive,
   IsOptional,
   IsDate,
+  IsBoolean,
 } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 
 export class CreateTransactionDto {
-  @IsOptional()
-  @IsString()
-  @ApiProperty({ description: 'Details about the transaction' })
-  readonly description: string;
+  @IsNumber()
+  @IsNotEmpty()
+  readonly categoryId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  readonly userId: number;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly isShared: boolean;
 
   @IsNumber()
   @IsNotEmpty()
   @IsPositive()
   readonly value: number;
 
-  @IsString()
-  @IsNotEmpty()
-  readonly category: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly user: string;
-
   @IsDate()
+  @IsNotEmpty()
+  readonly registerDate: Date;
+
   @IsOptional()
-  transactionDate: Date;
+  @IsString()
+  @ApiProperty({ description: 'Details about the transaction' })
+  readonly description: string;
 }
 
 export class UpdateTransactionDto extends PartialType(CreateTransactionDto) {}

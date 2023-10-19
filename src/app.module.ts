@@ -7,6 +7,7 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { environments } from './environments';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 import config from 'src/config';
 import configSchema from './configSchema';
 
@@ -21,6 +22,7 @@ import configSchema from './configSchema';
     }),
     DatabaseModule,
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

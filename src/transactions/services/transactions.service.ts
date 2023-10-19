@@ -3,16 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Client } from 'pg';
 
-import { CreateTransactionDto, UpdateTransactionDto } from '../../dtos/transactions.dto';
-import { Transaction } from '../../entities/transaction.entity';
-import { timestamp } from 'rxjs';
+import {
+  CreateTransactionDto,
+  UpdateTransactionDto,
+} from '../dtos/transaction.dto';
+import { Transaction } from '../entities/transaction.entity';
 
 @Injectable()
 export class TransactionsService {
   constructor(
     @InjectRepository(Transaction)
     private transactionRepo: Repository<Transaction>,
-    @Inject('pg') private clientPg: Client,
   ) {}
 
   findAll() {
@@ -22,11 +23,11 @@ export class TransactionsService {
   }
 
   async findOne(id: number) {
-     const transaction = await this.transactionRepo.findOneBy({ id });
-     if(!transaction){
+    const transaction = await this.transactionRepo.findOneBy({ id });
+    if (!transaction) {
       throw new NotFoundException(`Transaction #${id} not found`);
-     }
-     return transaction;
+    }
+    return transaction;
   }
 
   // findByCategory(category: string) {
@@ -37,33 +38,17 @@ export class TransactionsService {
   // }
 
   create(data: CreateTransactionDto) {
-    if(!data.transactionDate){
-      data.transactionDate = new Date();
-    }
     const newTransaction = this.transactionRepo.create(data);
     return this.transactionRepo.save(newTransaction);
   }
 
-  async update(id: number, changes: UpdateTransactionDto){
-    const transaction = await this.transactionRepo.findOneBy({id});
+  async update(id: number, changes: UpdateTransactionDto) {
+    const transaction = await this.transactionRepo.findOneBy({ id });
     this.transactionRepo.merge(transaction, changes);
     return this.transactionRepo.save(transaction);
   }
 
-  remove(id:number){
-    return this.transactionRepo.delete({id});
-  }
-
-
-
-  getTasks() {
-    return new Promise((resolve, reject) => {
-      this.clientPg.query('select * from tasks', (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res.rows);
-      });
-    });
+  remove(id: number) {
+    return this.transactionRepo.delete({ id });
   }
 }

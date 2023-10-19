@@ -1,13 +1,21 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, Inject } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+  Inject,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { ConfigType } from '@nestjs/config'
-import { Request } from 'express'; 
+import { ConfigType } from '@nestjs/config';
+import { Request } from 'express';
 
-import config from './../../config'
+import config from './../../config';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
- constructor(@Inject(config.KEY) private configService: ConfigType<typeof config>){}
+  constructor(
+    @Inject(config.KEY) private configService: ConfigType<typeof config>,
+  ) {}
 
   canActivate(
     context: ExecutionContext,
@@ -15,7 +23,7 @@ export class ApiKeyGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
     const authHeader = request.header('Auth');
     const isAuth = authHeader === this.configService.apiKey;
-    if(!isAuth){
+    if (!isAuth) {
       throw new UnauthorizedException();
     }
     return isAuth;

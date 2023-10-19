@@ -1,22 +1,33 @@
-import { Column, PrimaryGeneratedColumn, Entity, Timestamp } from 'typeorm';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Category } from './category.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity({ name: 'transactions' })
 export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'text' })
-  description: string;
+  @Column({ type: 'bool' })
+  isShared: boolean;
 
   @Column({ type: 'int' })
   value: number;
 
-  @Column({ type: 'varchar', length: 50 })
-  category: string;
-
-  @Column({ type: 'varchar', length: 20 })
-  user: string;
-
   @Column({ type: 'timestamp' })
-  transactionDate: Date;
+  registerDate: Date;
+
+  @Column({ type: 'varchar' })
+  description: string;
+
+  @ManyToOne(() => Category, (category) => category.transactions)
+  category: Category;
+
+  @ManyToOne(() => User, (user) => user.transactions)
+  user: User;
 }

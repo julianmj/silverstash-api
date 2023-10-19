@@ -1,9 +1,22 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
+import { ApiKeyGuard } from '../../auth/guards/api-key.guard';
 
-import { CreateTransactionDto, UpdateTransactionDto } from '../dtos/transactions.dto';
-import { TransactionsService } from '../services/transactions/transactions.service';
+import {
+  CreateTransactionDto,
+  UpdateTransactionDto,
+} from '../dtos/transaction.dto';
+import { TransactionsService } from '../services/transactions.service';
 
 @UseGuards(ApiKeyGuard)
 @ApiTags('Transactions')
@@ -33,17 +46,16 @@ export class TransactionsController {
   }
 
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() payload: UpdateTransactionDto){
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateTransactionDto,
+  ) {
     return this.transactionService.update(id, payload);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id:number){
+  delete(@Param('id', ParseIntPipe) id: number) {
     return this.transactionService.remove(id);
   }
 
-  @Get('tasks')
-  getTasks() {
-    return this.transactionService.getTasks();
-  }
 }
